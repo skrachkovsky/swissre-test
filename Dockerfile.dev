@@ -1,0 +1,7 @@
+FROM python:3.10-alpine
+
+RUN apk update && apk add openssh git
+COPY ./requirements.txt /root/requirements.txt
+RUN pip install -r /root/requirements.txt
+ENV PYTHONPATH="$PYTHONPATH:/swissre-test"
+WORKDIR /swissre_test
