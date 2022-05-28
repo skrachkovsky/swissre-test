@@ -2,8 +2,7 @@ import argparse
 import asyncio
 from time import time
 
-from swissre_test.config import Config
-
+from .config import Config
 from .readers import FileReader
 from .operations import OperationAlias
 from .response import FileResponse, FormatAlias
