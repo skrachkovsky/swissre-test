@@ -17,7 +17,7 @@ Enter the container
 docker exec -it swissre-test sh
 ```
 
-Run test (optional)
+Run tests (optional)
 
 ```sh
 pytest
@@ -32,5 +32,5 @@ python -m swissre_test --help
 Operation example
 
 ```sh
-python -m swissre_test /exchange-dir/access.log eps /exchange-dir/eps-res.json json
+python -m swissre_test squid /exchange-dir/access.log eps /exchange-dir/eps-res.json json
 ````

@@ -7,6 +7,7 @@ from swissre_test.operations.events_num import EpsResult
 from swissre_test.squid import SquidProvider
 from swissre_test.readers import StringReader
 from swissre_test.operations import OperationAlias
+from swissre_test.provider.factory import Provider
 
 
 @pytest.mark.asyncio
@@ -14,7 +15,7 @@ async def test_most_frequent_ip(squid_log, config):
     logs = squid_log(100, 60)
     reader = StringReader(logs)
     provider = SquidProvider()
-    conf = config(operation=OperationAlias.most_frequent_ip)
+    conf = config(operation=OperationAlias.most_frequent_ip, provider=Provider.squid)
     result = await provider.process(OperationAlias.most_frequent_ip, reader, conf)
 
     _ips = {}
@@ -43,7 +44,7 @@ async def test_least_frequent_ip(squid_log, config):
     logs = squid_log(100, 60)
     reader = StringReader(logs)
     provider = SquidProvider()
-    conf = config(operation=OperationAlias.most_frequent_ip)
+    conf = config(operation=OperationAlias.most_frequent_ip, provider=Provider.squid)
     result = await provider.process(OperationAlias.least_frequent_ip, reader, conf)
 
     _ips = {}
@@ -72,7 +73,7 @@ async def test_events_per_second(squid_log, config):
     logs = squid_log(100, 60)
     reader = StringReader(logs)
     provider = SquidProvider()
-    conf = config(operation=OperationAlias.most_frequent_ip)
+    conf = config(operation=OperationAlias.most_frequent_ip, provider=Provider.squid)
     result = await provider.process(OperationAlias.events_per_second, reader, conf)
 
     assert isinstance(result, EpsResult)
@@ -103,7 +104,7 @@ async def test_total_amout_of_bytes_exchanged(squid_log, config):
     logs = squid_log(100, 60)
     reader = StringReader(logs)
     provider = SquidProvider()
-    conf = config(operation=OperationAlias.most_frequent_ip)
+    conf = config(operation=OperationAlias.most_frequent_ip, provider=Provider.squid)
     result = await provider.process(OperationAlias.total_amout_of_bytes_exchanged, reader, conf)
 
     _res = 0

@@ -1,14 +1,14 @@
 import typing
 from functools import cached_property
 
-from .operations import OperationAlias
-from .operations.invoker import Operations
-from .exceptions import BadOperation
-from .entities import EntityFactory
+from ..operations import OperationAlias
+from ..operations.invoker import Operations
+from ..exceptions import BadOperation
+from ..entities import EntityFactory
 
 if typing.TYPE_CHECKING:
-    from .readers import DataReader
-    from .config import Config
+    from ..readers import DataReader
+    from ..config import Config
 
 
 class DataProvider:

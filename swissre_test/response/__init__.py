@@ -1,37 +1,17 @@
-import enum
-import json
 import os
 import typing
-from dataclasses import asdict
 from datetime import datetime
 from abc import ABC, abstractmethod
-from swissre_test.entities import ResponseEntity, ResponseError
-from swissre_test.operations import OperationAlias
+
+from ..entities import ResponseError, ResponseEntity
+
+if typing.TYPE_CHECKING:
+    from ..operations import OperationAlias
+    from .formats import ResponseFormat
 
 
-class ResponseFormat(ABC):
-    @abstractmethod
-    async def render(self, entity: ResponseEntity) -> str:
-        raise NotImplementedError
-
-
-class JsonFormat(ResponseFormat):
-    async def render(self, entity: ResponseEntity) -> str:
-        return json.dumps(asdict(entity))
-
-
-@enum.unique
-class FormatAlias(str, enum.Enum):
-    json = 'json'
-
-    def get_object(self):
-        return {
-            FormatAlias.json.name: JsonFormat
-        }[self.name]()
-
-
-class Response:
-    def __init__(self, operation: OperationAlias, output_format: ResponseFormat, result: typing.Any = None,
+class Response(ABC):
+    def __init__(self, operation: 'OperationAlias', output_format: 'ResponseFormat', result: typing.Any = None,
                  error: typing.Optional[Exception] = None):
         self._operation = operation
         self._result = result
@@ -55,7 +35,7 @@ class Response:
 
 
 class FileResponse(Response):
-    def __init__(self, filename: str, operation: OperationAlias, output_format: ResponseFormat,
+    def __init__(self, filename: str, operation: 'OperationAlias', output_format: 'ResponseFormat',
                  result: typing.Any = None, error: typing.Optional[Exception] = None):
         self._path = os.path.abspath(filename)
         if self._path.startswith(os.path.dirname(__file__)):

@@ -5,7 +5,8 @@ from random import randint, uniform
 
 from swissre_test.config import Config
 from swissre_test.operations import OperationAlias
-from swissre_test.response import FormatAlias
+from swissre_test.response.formats import Format
+from swissre_test.provider.factory import Provider
 
 
 @pytest.fixture
@@ -45,7 +46,8 @@ async def config():
         return Config(
             input_files=kwargs.get('input_files', ['access.log']),
             output_file=kwargs.get('output_file', 'output.txt'),
-            output_format=FormatAlias(kwargs.get('output_format', FormatAlias.json)),
-            operation=OperationAlias(kwargs['operation'])
+            output_format=Format(kwargs.get('output_format', Format.json)),
+            operation=OperationAlias(kwargs['operation']),
+            provider=Provider(kwargs['provider'])
         )
     yield conf

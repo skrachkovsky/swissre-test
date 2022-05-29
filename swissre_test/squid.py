@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from functools import cached_property
 
 from .exceptions import ValidationError
-from .providers import DataProvider
+from .provider import DataProvider
 from .entities import DataEntity, EntityFactory
 
 
