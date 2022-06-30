@@ -47,7 +47,7 @@ async def config():
             input_files=kwargs.get('input_files', ['access.log']),
             output_file=kwargs.get('output_file', 'output.txt'),
             output_format=Format(kwargs.get('output_format', Format.json)),
-            operation=OperationAlias(kwargs['operation']),
+            operations=[OperationAlias(op) for op in kwargs['operations']],
             provider=Provider(kwargs['provider'])
         )
     yield conf

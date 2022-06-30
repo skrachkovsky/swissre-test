@@ -12,7 +12,7 @@ class Config:
     input_files: List[str]
     output_file: str
     output_format: Format
-    operation: OperationAlias
+    operations: List[OperationAlias]
 
     @staticmethod
     def load_from_args(args):
@@ -21,5 +21,5 @@ class Config:
             input_files=args.file,
             output_file=args.destination,
             output_format=Format(args.format),
-            operation=OperationAlias(args.operation)
+            operations=[OperationAlias(op) for op in args.operation]
         )

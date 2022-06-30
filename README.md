@@ -3,34 +3,26 @@ Install
 
 ```sh
 docker build --tag swissre-test .
-docker run --name swissre-test -v /path-for-your-volume-for-input-output-data:/exchange-dir:rw -tid swissre-test
 ```
 
-You have to mount one volume at least to provide access to input/output data outside the container.
-
-Run
-===
-
-Enter the container
+Tests
+=====
 
 ```sh
-docker exec -it swissre-test sh
+docker run --entrypoint pytest swissre-test
 ```
 
-Run tests (optional)
+Help
+====
 
 ```sh
-pytest
+docker run -i --rm swissre-test
 ```
 
-Run the command for getting help
+
+Command example
+===============
 
 ```sh
-python -m swissre_test --help
+cat ~/access.log | docker run -i --rm swissre-test squid eps json > ~/result.json
 ```
-
-Operation example
-
-```sh
-python -m swissre_test squid /exchange-dir/access.log eps /exchange-dir/eps-res.json json
-````

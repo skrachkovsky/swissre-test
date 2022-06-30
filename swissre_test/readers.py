@@ -1,6 +1,8 @@
 from io import StringIO
 import os
+import tempfile
 import typing
+import sys
 from abc import ABC
 
 
@@ -57,3 +59,29 @@ class StringReader(DataReader):
         if not line.strip():
             return
         return line
+
+
+class StdinReader(DataReader):
+    def __init__(self) -> None:
+        _tmp = tempfile.NamedTemporaryFile('w', delete=False)
+        self._tmp_name = _tmp.name
+        with _tmp as tmp, sys.stdin as stdin:
+            for line in stdin:
+                tmp.write(line)
+
+    async def read(self) -> typing.AsyncGenerator[str, None]:
+        with open(self._tmp_name, 'r') as tmp:
+            for line in tmp:
+                line = await self.process_line(line)
+                if line is None:
+                    continue
+                yield line
+
+    async def process_line(self, line: str) -> typing.Union[str, None]:
+        if not line.strip():
+            return
+        return line
+
+    def __del__(self):
+        if os.path.isfile(self._tmp_name):
+            os.remove(self._tmp_name)
